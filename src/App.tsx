@@ -467,6 +467,7 @@ function JourneyView({
 }) {
   const [direction, setDirection] = useState(0);
   const [showSkipConfirm, setShowSkipConfirm] = useState(false);
+  const [showHomeMenu, setShowHomeMenu] = useState(false);
 
   const stages = path.stages;
   const currentStage = stages[currentIndex];
@@ -524,7 +525,7 @@ function JourneyView({
           <button onClick={prevStep} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
             <ChevronLeft className="w-6 h-6" />
           </button>
-          <button onClick={onExit} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
+          <button onClick={() => setShowHomeMenu(true)} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
             <Home className="w-5 h-5" />
           </button>
         </div>
@@ -835,6 +836,7 @@ function DailyPracticeView({
   const availablePractices = sampleDailyPractices.filter(p => p.layer === layer && p.lifeStage === lifeStage);
   const practice = availablePractices.length > 0 ? availablePractices[0] : sampleDailyPractices[0];
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showHomeMenu, setShowHomeMenu] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 sm:px-8 overflow-x-hidden bg-offwhite">
@@ -844,7 +846,7 @@ function DailyPracticeView({
           <button onClick={onExit} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
             <ChevronLeft className="w-6 h-6" />
           </button>
-          <button onClick={onExit} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
+          <button onClick={() => setShowHomeMenu(true)} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
             <Home className="w-5 h-5" />
           </button>
         </div>
@@ -961,9 +963,68 @@ function DailyPracticeView({
           </div>
         </motion.div>
       </div>
+      
+      <AnimatePresence>
+        {showHomeMenu && (
+          <HomeMenu 
+            onReturnHome={onExit}
+            onStartAgain={onExit}
+            onCancel={() => setShowHomeMenu(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
+
+function HomeMenu({ 
+  onReturnHome, 
+  onStartAgain, 
+  onCancel 
+}: { 
+  onReturnHome: () => void, 
+  onStartAgain: () => void, 
+  onCancel: () => void 
+}) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/40 backdrop-blur-sm p-6"
+    >
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        className="bg-surface rounded-[2rem] p-8 max-w-sm w-full shadow-warm-xl text-center"
+      >
+        <h3 className="font-serif text-2xl text-charcoal mb-8">Where to next?</h3>
+        <div className="flex flex-col gap-3">
+          <button 
+            onClick={onReturnHome}
+            className="w-full py-4 bg-sage text-white rounded-full text-sm tracking-widest uppercase font-bold"
+          >
+            Return Home
+          </button>
+          <button 
+            onClick={onStartAgain}
+            className="w-full py-4 bg-surface text-charcoal rounded-full text-sm tracking-widest uppercase font-bold border border-sand"
+          >
+            Start Again
+          </button>
+          <button 
+            onClick={onCancel}
+            className="w-full py-4 text-charcoal-light rounded-full text-sm tracking-widest uppercase font-bold"
+          >
+            Cancel
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 
 // --- ROOT APP ---
 export default function App() {
