@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronLeft, ChevronRight, Map, Layers, BookOpen, PlayCircle, MessageCircle, Library, Compass, Settings, Plus, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Map, Layers, BookOpen, PlayCircle, MessageCircle, Library, Compass, Settings, Plus, Play, Home } from 'lucide-react';
 import { systemPaths, sampleDailyPractices, libraryData } from './data';
 
 // --- ONBOARDING FLOW COMPONENT ---
@@ -520,9 +520,14 @@ function JourneyView({
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 sm:px-8 overflow-x-hidden bg-offwhite">
       <nav className="w-full max-w-2xl mb-8 flex justify-between items-center">
-        <button onClick={onExit} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
-          <ChevronLeft className="w-6 h-6" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={prevStep} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button onClick={onExit} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
+            <Home className="w-5 h-5" />
+          </button>
+        </div>
         <div className="flex-grow mx-4 h-1 bg-sand rounded-full overflow-hidden">
           <div className="h-full bg-sage transition-all duration-500" style={{ width: `${progressPercentage}%` }}></div>
         </div>
@@ -718,13 +723,22 @@ function FamilyLibrary({
   return (
     <div className="min-h-screen flex flex-col items-center py-12 px-4 sm:px-8 bg-offwhite">
       <div className="w-full max-w-4xl mb-12 flex justify-between items-center">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-charcoal-muted hover:text-charcoal transition-colors"
-        >
-          <ChevronLeft className="w-5 h-5" />
-          Back Home
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-charcoal-muted hover:text-charcoal transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+            Back
+          </button>
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-charcoal-muted hover:text-charcoal transition-colors"
+          >
+            <Home className="w-5 h-5" />
+            Home
+          </button>
+        </div>
       </div>
 
       <header className="mb-16 text-center max-w-3xl w-full">
@@ -826,9 +840,14 @@ function DailyPracticeView({
     <div className="min-h-screen flex flex-col items-center py-12 px-4 sm:px-8 overflow-x-hidden bg-offwhite">
       {/* Navigation / Mode Switcher */}
       <nav className="w-full max-w-4xl mb-12 flex justify-between items-center">
-        <button onClick={onExit} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
-          <ChevronLeft className="w-6 h-6" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={onExit} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          <button onClick={onExit} className="p-2 text-charcoal-muted hover:text-charcoal transition-colors">
+            <Home className="w-5 h-5" />
+          </button>
+        </div>
         <div className="flex items-center gap-4">
           <button
             onClick={onSwitchToJourney}
