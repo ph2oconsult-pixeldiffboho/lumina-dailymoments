@@ -687,6 +687,22 @@ function JourneyView({
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Home Menu Modal */}
+        <AnimatePresence>
+          {showHomeMenu && (
+            <HomeMenu 
+              onReturnHome={onExit}
+              onStartAgain={() => {
+                setCurrentIndex(0);
+                setCurrentStepIndex(0);
+                setInteractionState({});
+                onExit();
+              }}
+              onCancel={() => setShowHomeMenu(false)}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
@@ -968,7 +984,10 @@ function DailyPracticeView({
         {showHomeMenu && (
           <HomeMenu 
             onReturnHome={onExit}
-            onStartAgain={onExit}
+            onStartAgain={() => {
+              setIsCompleted(false);
+              onExit();
+            }}
             onCancel={() => setShowHomeMenu(false)}
           />
         )}
