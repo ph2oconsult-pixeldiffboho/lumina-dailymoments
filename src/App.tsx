@@ -558,13 +558,15 @@ function JourneyView({
 
             {/* Main Content */}
             <div className="space-y-8 max-w-lg">
-              <h2 className={`font-serif leading-tight text-charcoal ${
-                currentStep.type === 'story' ? 'text-3xl sm:text-4xl italic' : 
-                currentStep.type === 'question' ? 'text-2xl sm:text-3xl' :
-                'text-xl sm:text-2xl'
-              }`}>
-                {currentStep.content}
-              </h2>
+              {!['whisper', 'identity', 'micro-moment'].includes(currentStep.type) && (
+                <h2 className={`font-serif leading-tight text-charcoal ${
+                  currentStep.type === 'story' ? 'text-3xl sm:text-4xl italic' : 
+                  currentStep.type === 'question' ? 'text-2xl sm:text-3xl' :
+                  'text-xl sm:text-2xl'
+                }`}>
+                  {currentStep.content}
+                </h2>
+              )}
 
               {/* Interaction Elements */}
               {currentStep.type === 'choice' && (
